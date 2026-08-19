@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Paleta Base Light Mode */
+  --color-background: #F8F5EE;
+  --color-surface: #FFFFFF;
+  --color-surface-hover: #F2ECE1;
+  --color-surface-subtle: #EFE8DC;
+  
+  --color-primary: #75162D;
+  --color-primary-hover: #5A0F21;
+  --color-primary-subtle: rgba(117, 22, 45, 0.08);
+  --color-primary-border: rgba(117, 22, 45, 0.18);
+  
+  --color-secondary: #E3D7B8;
+  --color-secondary-hover: #D4C6A2;
+  --color-accent: #B8860B;
+  --color-accent-subtle: rgba(184, 134, 11, 0.12);
+
+  --color-text: #2D141A;
+  --color-text-muted: #6B555B;
+  --color-text-light: #948086;
+  
+  --color-border: rgba(117, 22, 45, 0.12);
+  --color-border-hover: rgba(117, 22, 45, 0.25);
+  
+  --color-success: #2E7D32;
+  --color-success-bg: #E8F5E9;
+  --color-warning: #D97706;
+  --color-warning-bg: #FEF3C7;
+  --color-danger: #B91C1C;
+  --color-danger-bg: #FEE2E2;
+
+  /* Aliases compatíveis */
+  --bg-primary: var(--color-background);
+  --bg-secondary: var(--color-surface-subtle);
+  --bg-card: var(--color-surface);
+  --text-main: var(--color-text);
+  --border-color: var(--color-border);
+  --color-burgundy: var(--color-primary);
+  --color-burgundy-hover: var(--color-primary-hover);
+  --color-sand-gold: var(--color-secondary);
+  --color-deep-wine: var(--color-text);
+  --color-champagne-beige: #F8F5EE;
+
+  --shadow-sm: 0 2px 8px rgba(45, 20, 26, 0.05);
+  --shadow-md: 0 6px 18px rgba(45, 20, 26, 0.08);
+  --shadow-lg: 0 12px 32px rgba(45, 20, 26, 0.12);
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-full: 9999px;
+
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+[data-theme="dark"] {
+  /* Paleta Base Dark Mode — Contraste rico e acolhedor para leitura */
+  --color-background: #141214;
+  --color-surface: #1E1A1D;
+  --color-surface-hover: #2A2429;
+  --color-surface-subtle: #241E22;
+
+  --color-primary: #C94C6A;
+  --color-primary-hover: #E05D7D;
+  --color-primary-subtle: rgba(201, 76, 106, 0.15);
+  --color-primary-border: rgba(201, 76, 106, 0.35);
+
+  --color-secondary: #3D3338;
+  --color-secondary-hover: #4C4047;
+  --color-accent: #E5A93C;
+  --color-accent-subtle: rgba(229, 169, 60, 0.15);
+
+  --color-text: #F5EFEB;
+  --color-text-muted: #B3A1A6;
+  --color-text-light: #837277;
+
+  --color-border: rgba(245, 239, 235, 0.1);
+  --color-border-hover: rgba(245, 239, 235, 0.22);
+
+  --color-success: #4ADE80;
+  --color-success-bg: rgba(74, 222, 128, 0.12);
+  --color-warning: #FBBF24;
+  --color-warning-bg: rgba(251, 191, 36, 0.12);
+  --color-danger: #F87171;
+  --color-danger-bg: rgba(248, 113, 113, 0.12);
+
+  /* Aliases compatíveis */
+  --bg-primary: var(--color-background);
+  --bg-secondary: var(--color-surface-subtle);
+  --bg-card: var(--color-surface);
+  --text-main: var(--color-text);
+  --border-color: var(--color-border);
+  --color-burgundy: var(--color-primary);
+  --color-burgundy-hover: var(--color-primary-hover);
+  --color-sand-gold: var(--color-secondary);
+  --color-deep-wine: var(--color-text);
+  --color-champagne-beige: #1E1A1D;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 36px rgba(0, 0, 0, 0.6);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  color: var(--color-text);
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+  color: var(--color-text);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Layout Utilities */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--color-background);
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 768px) {
+  .main-content {
+    padding-bottom: 2rem;
+  }
+}
+
+/* Modernized Unified Button System */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 40px;
+  padding: 0 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  border: 1px solid transparent;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--color-primary-hover);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--color-secondary-hover);
+}
+
+.btn-outline {
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  background-color: var(--color-surface);
+}
+
+.btn-outline:hover:not(:disabled) {
+  background-color: var(--color-surface-hover);
+  border-color: var(--color-primary);
+}
+
+.btn-sm {
+  height: 32px;
+  padding: 0 0.85rem;
+  font-size: 0.825rem;
+  border-radius: var(--radius-sm);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Cards */
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Universal Progress Bar */
+.dashboard-progress-bar {
+  height: 8px;
+  background-color: var(--color-surface-subtle);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.dashboard-progress-fill {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  transition: width 0.35s ease;
+}

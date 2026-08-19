@@ -1,0 +1,287 @@
+.comunidade-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.comunidade-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: 1rem;
+  color: var(--color-text-muted);
+}
+
+.comunidade-header h1 {
+  font-family: var(--font-serif);
+  font-size: 2.1rem;
+  color: var(--color-text);
+}
+
+.comunidade-sub {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.comunidade-controls-card {
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .comunidade-controls-card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.comunidade-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .comunidade-grid {
+    grid-template-columns: 1fr 320px;
+  }
+}
+
+.feed-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.activity-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  border-radius: var(--radius-md);
+}
+
+.activity-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-avatar-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.user-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: var(--color-surface-subtle);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.user-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.user-handle {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.activity-time {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.activity-action-label {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-transform: lowercase;
+}
+
+.activity-book-box {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  background-color: var(--color-surface-subtle);
+  padding: 0.85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.activity-book-cover {
+  width: 48px;
+  height: 68px;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.activity-book-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.activity-book-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.book-title-link {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.book-title-link:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.book-author-text {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.activity-stars {
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+
+.activity-review-text {
+  font-size: 0.925rem;
+  color: var(--color-text);
+  font-style: italic;
+  line-height: 1.5;
+  padding: 0.25rem 0;
+}
+
+.activity-footer {
+  display: flex;
+  align-items: center;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.btn-like-activity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.825rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.btn-like-activity.liked {
+  color: var(--color-danger);
+  font-weight: 600;
+}
+
+/* REQUISITO 10.1: Container centralizado e não excessivo */
+.empty-community-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 2rem;
+  gap: 0.75rem;
+  border-radius: var(--radius-md);
+}
+
+.empty-community-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.empty-community-box h3 {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  color: var(--color-text);
+}
+
+.empty-sub {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  max-width: 400px;
+  margin-bottom: 0.5rem;
+}
+
+/* Suggested Users Sidebar */
+.suggested-users-aside {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  border-radius: var(--radius-md);
+}
+
+.suggested-users-aside h3 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--color-text);
+}
+
+.suggested-users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.suggested-user-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.suggested-user-item:last-child {
+  border-bottom: none;
+}
+
+.no-suggested-text {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
