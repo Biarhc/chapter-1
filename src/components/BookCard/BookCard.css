@@ -114,11 +114,45 @@
 .book-author {
   font-size: 0.8rem;
   color: var(--color-text-muted);
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.45rem;
   display: -webkit-box;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Genre tag — catalog context */
+.book-genre-tag {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background-color: var(--color-primary-subtle);
+  border: 1px solid var(--color-primary-border);
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-full);
+  margin-bottom: 0.35rem;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Rating display */
+.book-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-bottom: 0.35rem;
+}
+
+.book-rating .star-icon {
+  fill: var(--color-accent);
+  color: var(--color-accent);
 }
 
 .book-progress-wrapper {

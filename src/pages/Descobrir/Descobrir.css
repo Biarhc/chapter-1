@@ -143,8 +143,61 @@
   gap: 0.4rem;
 }
 
+/* Search clear button */
+.search-clear-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  transition: all 0.2s ease;
+}
+
+.search-clear-btn:hover {
+  color: var(--color-text);
+  background-color: var(--color-surface-subtle);
+}
+
+/* Clear filters button */
+.clear-filters-btn {
+  align-self: flex-start;
+}
+
+/* Catalog header with count */
+.catalog-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.catalog-header h2 {
+  margin-bottom: 0;
+}
+
+.catalog-count {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* Empty / Error states */
 .no-books-found {
   text-align: center;
   padding: 3rem 1.5rem;
   color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.no-books-found.error-state {
+  border-color: var(--color-danger-bg);
 }

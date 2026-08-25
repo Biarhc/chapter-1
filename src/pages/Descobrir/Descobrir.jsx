@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { BookCard } from '../../components/BookCard/BookCard';
-import { Search, Loader2, Sparkles, User, Tag, BookOpen } from 'lucide-react';
+import { Search, Loader2, Sparkles, User, AlertCircle, BookOpen, X } from 'lucide-react';
 import './Descobrir.css';
 
 export const Descobrir = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const navigate = useNavigate();
 
   const selectedAuthor = searchParams.get('autor') || 'Todas';
   const selectedGenre = searchParams.get('genero') || 'Todos';
 
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
   const authorsList = ['Todas', 'Ali Hazelwood', 'Lynn Painter', 'Colleen Hoover'];
@@ -25,14 +25,13 @@ export const Descobrir = () => {
     'New Adult',
     'Drama',
     'Ficção',
+    'Fantasia',
+    'Thriller',
   ];
 
-  useEffect(() => {
-    fetchBooks();
-  }, [selectedAuthor, selectedGenre]);
-
-  const fetchBooks = async () => {
+  const fetchBooks = useCallback(async () => {
     setLoading(true);
+    setError(null);
     try {
       let query = supabase.from('books').select('*');
 
@@ -44,16 +43,22 @@ export const Descobrir = () => {
         query = query.contains('generos', [selectedGenre]);
       }
 
-      const { data, error } = await query.order('created_at', { ascending: false });
+      const { data, error: queryError } = await query.order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (queryError) throw queryError;
       setBooks(data || []);
     } catch (err) {
       console.error('Erro ao carregar catálogo:', err);
+      setError('Não foi possível carregar os livros. Tente novamente.');
+      setBooks([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedAuthor, selectedGenre]);
+
+  useEffect(() => {
+    fetchBooks();
+  }, [fetchBooks]);
 
   const handleAuthorClick = (author) => {
     const newParams = new URLSearchParams(searchParams);
@@ -74,6 +79,13 @@ export const Descobrir = () => {
     }
     setSearchParams(newParams);
   };
+
+  const handleClearFilters = () => {
+    setSearchParams({});
+    setSearchTerm('');
+  };
+
+  const hasActiveFilters = selectedAuthor !== 'Todas' || selectedGenre !== 'Todos' || searchTerm.trim() !== '';
 
   const filteredBooks = books.filter((b) => {
     if (!searchTerm.trim()) return true;
@@ -133,6 +145,15 @@ export const Descobrir = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             aria-label="Buscar livros no catálogo"
           />
+          {searchTerm && (
+            <button
+              className="search-clear-btn"
+              onClick={() => setSearchTerm('')}
+              aria-label="Limpar busca"
+            >
+              <X size={16} />
+            </button>
+          )}
         </div>
 
         {/* Filter By Author */}
@@ -166,10 +187,17 @@ export const Descobrir = () => {
             ))}
           </div>
         </div>
+
+        {hasActiveFilters && (
+          <button onClick={handleClearFilters} className="btn btn-outline btn-sm clear-filters-btn">
+            <X size={14} />
+            Limpar todos os filtros
+          </button>
+        )}
       </div>
 
       {/* Romances recomendados */}
-      {selectedAuthor === 'Todas' && selectedGenre === 'Todos' && popularRomances.length > 0 && (
+      {selectedAuthor === 'Todas' && selectedGenre === 'Todos' && !searchTerm.trim() && popularRomances.length > 0 && (
         <section className="recommendations-section">
           <h2>
             <Sparkles size={20} color="var(--color-primary)" /> Romances que você pode gostar
@@ -184,16 +212,31 @@ export const Descobrir = () => {
 
       {/* Main Books Catalog Grid */}
       <section className="catalog-section">
-        <h2>
-          Catálogo{' '}
-          {selectedAuthor !== 'Todas' ? `• ${selectedAuthor}` : ''}
-          {selectedGenre !== 'Todos' ? ` (${selectedGenre})` : ''}
-        </h2>
+        <div className="catalog-header">
+          <h2>
+            Catálogo{' '}
+            {selectedAuthor !== 'Todas' ? `• ${selectedAuthor}` : ''}
+            {selectedGenre !== 'Todos' ? ` (${selectedGenre})` : ''}
+          </h2>
+          {!loading && !error && (
+            <span className="catalog-count">
+              {filteredBooks.length} {filteredBooks.length === 1 ? 'livro' : 'livros'}
+            </span>
+          )}
+        </div>
 
         {loading ? (
           <div className="descobrir-loading">
             <Loader2 className="animate-spin" size={32} color="var(--color-primary)" />
             <p>Carregando livros...</p>
+          </div>
+        ) : error ? (
+          <div className="no-books-found card error-state">
+            <AlertCircle size={32} color="var(--color-danger)" />
+            <p>{error}</p>
+            <button onClick={fetchBooks} className="btn btn-primary btn-sm">
+              Tentar novamente
+            </button>
           </div>
         ) : filteredBooks.length > 0 ? (
           <div className="books-grid">
@@ -203,16 +246,20 @@ export const Descobrir = () => {
           </div>
         ) : (
           <div className="no-books-found card">
-            <p>Nenhum livro encontrado com os filtros selecionados.</p>
-            <button
-              onClick={() => {
-                setSearchParams({});
-                setSearchTerm('');
-              }}
-              className="btn btn-secondary btn-sm mt-2"
-            >
-              Limpar filtros
-            </button>
+            <BookOpen size={32} color="var(--color-text-muted)" />
+            {hasActiveFilters ? (
+              <>
+                <p>Nenhum livro encontrado com os filtros selecionados.</p>
+                <button
+                  onClick={handleClearFilters}
+                  className="btn btn-secondary btn-sm"
+                >
+                  Limpar filtros
+                </button>
+              </>
+            ) : (
+              <p>Nenhum livro cadastrado no catálogo ainda.</p>
+            )}
           </div>
         )}
       </section>

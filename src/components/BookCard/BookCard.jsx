@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, Star } from 'lucide-react';
+import { bookCoversMap } from '../../lib/bookCovers';
 import './BookCard.css';
 
 export const BookCard = ({ userBook, book }) => {
@@ -20,14 +21,19 @@ export const BookCard = ({ userBook, book }) => {
     abandonado: 'Abandonado',
   };
 
-  const hasValidCover = targetBook.capa_url && !imageError;
+  // Determina a URL da capa real (banco ou mapa de fallback garantido)
+  const coverUrl = targetBook.capa_url || bookCoversMap[targetBook.titulo];
+  const hasValidCover = Boolean(coverUrl) && !imageError;
+
+  // Display the first genre if available (for catalog view)
+  const primaryGenre = targetBook.generos?.[0];
 
   return (
     <Link to={`/livro/${targetBook.id}`} className="book-card card">
       <div className="book-cover-wrapper">
         {hasValidCover ? (
           <img
-            src={targetBook.capa_url}
+            src={coverUrl}
             alt={targetBook.titulo || 'Capa do livro'}
             className="book-cover-img"
             onError={() => setImageError(true)}
@@ -51,6 +57,19 @@ export const BookCard = ({ userBook, book }) => {
           {targetBook.titulo}
         </h3>
         <p className="book-author">{targetBook.autor}</p>
+
+        {/* Genre tag — shown in catalog context (when no userBook) */}
+        {!userBook && primaryGenre && (
+          <span className="book-genre-tag">{primaryGenre}</span>
+        )}
+
+        {/* Rating — shown when available */}
+        {targetBook.avaliacao_media != null && targetBook.avaliacao_media > 0 && (
+          <div className="book-rating">
+            <Star size={13} className="star-icon" />
+            <span>{Number(targetBook.avaliacao_media).toFixed(1)}</span>
+          </div>
+        )}
 
         {userBook && (
           <div className="book-progress-wrapper">

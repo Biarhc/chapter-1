@@ -18,8 +18,9 @@ import {
   Smile,
   X,
   ThumbsUp,
-  MessageSquare
+  MessageSquare,
 } from 'lucide-react';
+import { bookCoversMap } from '../../lib/bookCovers';
 import './Livro.css';
 
 export const Livro = () => {
@@ -473,8 +474,8 @@ export const Livro = () => {
         <div className="livro-header-grid">
           {/* Capa */}
           <div className="livro-cover-container">
-            {book.capa_url ? (
-              <img src={book.capa_url} alt={book.titulo} className="livro-cover-image" />
+            {(book.capa_url || bookCoversMap[book.titulo]) ? (
+              <img src={book.capa_url || bookCoversMap[book.titulo]} alt={book.titulo} className="livro-cover-image" />
             ) : (
               <div className="livro-cover-placeholder">
                 <BookOpen size={48} color="var(--color-primary)" />

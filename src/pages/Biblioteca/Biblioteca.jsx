@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabase';
 import { BookCard } from '../../components/BookCard/BookCard';
 import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { Search, Plus, Loader2, BookOpen, X, SlidersHorizontal } from 'lucide-react';
+import { bookCoversMap } from '../../lib/bookCovers';
 import './Biblioteca.css';
 
 export const Biblioteca = () => {
@@ -318,8 +319,8 @@ export const Biblioteca = () => {
                   return (
                     <div key={b.id} className="modal-book-item">
                       <div className="modal-book-cover">
-                        {b.capa_url ? (
-                          <img src={b.capa_url} alt={b.titulo} />
+                        {(b.capa_url || bookCoversMap[b.titulo]) ? (
+                          <img src={b.capa_url || bookCoversMap[b.titulo]} alt={b.titulo} />
                         ) : (
                           <BookOpen size={20} color="var(--color-primary)" />
                         )}
