@@ -27,17 +27,39 @@ export const Descobrir = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const authorsList = ['Todas', 'Ali Hazelwood', 'Lynn Painter', 'Colleen Hoover'];
+  const authorsList = [
+    'Todas',
+    'Ali Hazelwood',
+    'Colleen Hoover',
+    'Lynn Painter',
+    'Emily Henry',
+    'Taylor Jenkins Reid',
+    'Sarah J. Maas',
+    'Ana Huang',
+    'Carina Rissi',
+    'Abby Jimenez',
+    'Rebecca Yarros',
+    'Casey McQuiston',
+    'Elena Armas',
+    'Jenny Han',
+    "Beth O'Leary",
+    'Holly Black',
+    'Suzanne Collins',
+  ];
+
   const genresList = [
     'Todos',
     'Romance',
     'Comédia romântica',
     'Young Adult',
     'New Adult',
+    'Fantasia',
     'Drama',
     'Ficção',
-    'Fantasia',
     'Thriller',
+    'Mistério',
+    'Distopia',
+    'LGBTQ+',
   ];
 
   const fetchBooks = useCallback(async () => {
@@ -128,8 +150,13 @@ export const Descobrir = () => {
         <div className="authors-cards-grid">
           {[
             { name: 'Ali Hazelwood', title: 'Romance contemporâneo & STEM', tag: 'Rom-com' },
-            { name: 'Lynn Painter', title: 'Comédias românticas envolventes', tag: 'Young Adult' },
             { name: 'Colleen Hoover', title: 'Dramas e ficção de grande sucesso', tag: 'Bestseller' },
+            { name: 'Lynn Painter', title: 'Comédias românticas envolventes', tag: 'Young Adult' },
+            { name: 'Emily Henry', title: 'Romances de verão aclamados', tag: 'Rom-com' },
+            { name: 'Taylor Jenkins Reid', title: 'Narrativas inesquecíveis e ficção', tag: 'Bestseller' },
+            { name: 'Sarah J. Maas', title: 'Alta fantasia e mundos épicos', tag: 'Fantasia' },
+            { name: 'Ana Huang', title: 'Séries marcantes e romances intensos', tag: 'New Adult' },
+            { name: 'Carina Rissi', title: 'Clássicos do romance contemporâneo', tag: 'Nacional' },
           ].map((aut) => (
             <button
               key={aut.name}
