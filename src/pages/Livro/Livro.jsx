@@ -21,6 +21,7 @@ import {
   MessageSquare,
 } from 'lucide-react';
 import { bookCoversMap } from '../../lib/bookCovers';
+import { initialBooks } from '../../lib/catalogData';
 import './Livro.css';
 
 export const Livro = () => {
@@ -69,14 +70,30 @@ export const Livro = () => {
     setError(null);
     try {
       // 1. Fetch Book Details
-      const { data: bookData, error: bookErr } = await supabase
-        .from('books')
-        .select('*')
-        .eq('id', id)
-        .single();
+      let currentBook = null;
+      try {
+        const { data: bookData, error: bookErr } = await supabase
+          .from('books')
+          .select('*')
+          .eq('id', id)
+          .single();
 
-      if (bookErr) throw bookErr;
-      setBook(bookData);
+        if (bookErr) throw bookErr;
+        currentBook = bookData;
+      } catch (bookFetchErr) {
+        console.warn('Usando dados locais para o livro:', bookFetchErr);
+        currentBook = initialBooks.find((b) => b.id === id) || null;
+      }
+
+      if (!currentBook) {
+        currentBook = initialBooks.find((b) => b.id === id) || null;
+      }
+
+      if (!currentBook) {
+        throw new Error('Livro não encontrado');
+      }
+
+      setBook(currentBook);
 
       // 2. Fetch User Book state
       const { data: ubData } = await supabase

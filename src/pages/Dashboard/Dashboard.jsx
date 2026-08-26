@@ -18,6 +18,7 @@ import {
   ArrowRight,
   Edit2
 } from 'lucide-react';
+import { initialBooks } from '../../lib/catalogData';
 import './Dashboard.css';
 
 export const Dashboard = () => {
@@ -111,12 +112,16 @@ export const Dashboard = () => {
       });
 
       // 4. Fetch books for recommendations
-      const { data: booksList } = await supabase
-        .from('books')
-        .select('*')
-        .limit(4);
+      try {
+        const { data: booksList } = await supabase
+          .from('books')
+          .select('*')
+          .limit(4);
 
-      setRecommendations(booksList || []);
+        setRecommendations(booksList && booksList.length > 0 ? booksList : initialBooks.slice(0, 4));
+      } catch (errRec) {
+        setRecommendations(initialBooks.slice(0, 4));
+      }
 
       // 5. Fetch community activities
       const { data: follows } = await supabase

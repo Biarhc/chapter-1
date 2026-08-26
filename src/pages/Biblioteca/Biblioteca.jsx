@@ -5,6 +5,7 @@ import { BookCard } from '../../components/BookCard/BookCard';
 import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { Search, Plus, Loader2, BookOpen, X, SlidersHorizontal } from 'lucide-react';
 import { bookCoversMap } from '../../lib/bookCovers';
+import { initialBooks } from '../../lib/catalogData';
 import './Biblioteca.css';
 
 export const Biblioteca = () => {
@@ -52,11 +53,12 @@ export const Biblioteca = () => {
     setSearchingBooks(true);
 
     try {
-      const { data, error } = await supabase.from('books').select('*').limit(20);
-      if (error) throw error;
-      setAvailableBooks(data || []);
+      const { data, error } = await supabase.from('books').select('*').limit(30);
+      if (error || !data || data.length === 0) throw error || new Error('No books');
+      setAvailableBooks(data);
     } catch (err) {
-      console.error(err);
+      console.warn('Usando catálogo local para modal:', err);
+      setAvailableBooks(initialBooks);
     } finally {
       setSearchingBooks(false);
     }
@@ -76,10 +78,15 @@ export const Biblioteca = () => {
         .select('*')
         .or(`titulo.ilike.%${query}%,autor.ilike.%${query}%`);
 
-      if (error) throw error;
-      setAvailableBooks(data || []);
+      if (error || !data || data.length === 0) throw error || new Error('No books');
+      setAvailableBooks(data);
     } catch (err) {
-      console.error(err);
+      const filtered = initialBooks.filter(
+        (b) =>
+          b.titulo.toLowerCase().includes(query.toLowerCase()) ||
+          b.autor.toLowerCase().includes(query.toLowerCase())
+      );
+      setAvailableBooks(filtered);
     } finally {
       setSearchingBooks(false);
     }

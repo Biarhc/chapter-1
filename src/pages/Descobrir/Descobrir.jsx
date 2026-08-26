@@ -3,7 +3,18 @@ import { useSearchParams } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 import { BookCard } from '../../components/BookCard/BookCard';
 import { Search, Loader2, Sparkles, User, AlertCircle, BookOpen, X } from 'lucide-react';
+import { initialBooks } from '../../lib/catalogData';
 import './Descobrir.css';
+
+const getFilteredFallback = (author, genre) => {
+  return initialBooks.filter((book) => {
+    if (author !== 'Todas' && book.autor !== author) return false;
+    if (genre !== 'Todos' && (!book.generos || !book.generos.some((g) => g.toLowerCase() === genre.toLowerCase()))) {
+      return false;
+    }
+    return true;
+  });
+};
 
 export const Descobrir = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -11,8 +22,8 @@ export const Descobrir = () => {
   const selectedAuthor = searchParams.get('autor') || 'Todas';
   const selectedGenre = searchParams.get('genero') || 'Todos';
 
-  const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [books, setBooks] = useState(() => getFilteredFallback(selectedAuthor, selectedGenre));
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -30,7 +41,6 @@ export const Descobrir = () => {
   ];
 
   const fetchBooks = useCallback(async () => {
-    setLoading(true);
     setError(null);
     try {
       let query = supabase.from('books').select('*');
@@ -46,11 +56,16 @@ export const Descobrir = () => {
       const { data, error: queryError } = await query.order('created_at', { ascending: false });
 
       if (queryError) throw queryError;
-      setBooks(data || []);
+      if (data && data.length > 0) {
+        setBooks(data);
+      } else {
+        const fallback = getFilteredFallback(selectedAuthor, selectedGenre);
+        setBooks(fallback);
+      }
     } catch (err) {
-      console.error('Erro ao carregar catálogo:', err);
-      setError('Não foi possível carregar os livros. Tente novamente.');
-      setBooks([]);
+      console.warn('Usando catálogo local como fallback:', err);
+      const fallback = getFilteredFallback(selectedAuthor, selectedGenre);
+      setBooks(fallback);
     } finally {
       setLoading(false);
     }
