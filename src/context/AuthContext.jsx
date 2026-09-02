@@ -26,19 +26,43 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchProfile(session.user.id);
+    let isMounted = true;
+
+    // Safety timeout in case Supabase request is blocked or hanging
+    const timeout = setTimeout(() => {
+      if (isMounted) {
+        setLoading(false);
       }
-      setLoading(false);
-    });
+    }, 2000);
+
+    // Get initial session
+    supabase.auth
+      .getSession()
+      .then(({ data: { session } = {}, error }) => {
+        if (!isMounted) return;
+        if (error) console.error('Erro getSession:', error);
+        setSession(session ?? null);
+        setUser(session?.user ?? null);
+        if (session?.user) {
+          fetchProfile(session.user.id);
+        }
+      })
+      .catch((err) => {
+        console.error('Erro ao obter sessão inicial:', err);
+      })
+      .finally(() => {
+        if (isMounted) {
+          clearTimeout(timeout);
+          setLoading(false);
+        }
+      });
 
     // Listen for auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setSession(session);
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!isMounted) return;
+      setSession(session ?? null);
       setUser(session?.user ?? null);
       if (session?.user) {
         await fetchProfile(session.user.id);
@@ -48,7 +72,11 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      isMounted = false;
+      clearTimeout(timeout);
+      subscription?.unsubscribe?.();
+    };
   }, []);
 
   const signUp = async ({ email, password, nome, username }) => {

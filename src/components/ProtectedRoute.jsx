@@ -8,8 +8,8 @@ export const ProtectedRoute = () => {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--bg-primary)' }}>
-        <Loader2 className="animate-spin" size={32} color="var(--color-french-blue)" />
+      <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--color-background)' }}>
+        <Loader2 className="animate-spin" size={32} color="var(--color-primary)" />
       </div>
     );
   }
@@ -26,8 +26,8 @@ export const PublicOnlyRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--bg-primary)' }}>
-        <Loader2 className="animate-spin" size={32} color="var(--color-french-blue)" />
+      <div style={{ display: 'flex', minHeight: '100vh', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--color-background)' }}>
+        <Loader2 className="animate-spin" size={32} color="var(--color-primary)" />
       </div>
     );
   }

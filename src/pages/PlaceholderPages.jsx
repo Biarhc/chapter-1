@@ -34,10 +34,10 @@ export const Descobrir = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       <div>
-        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', color: 'var(--color-midnight-violet)' }}>
+        <h1 style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', color: 'var(--color-text)' }}>
           Descobrir Livros
         </h1>
-        <p style={{ color: 'var(--text-muted)' }}>Explore novos títulos para sua biblioteca</p>
+        <p style={{ color: 'var(--color-text-muted)' }}>Explore novos títulos para sua biblioteca</p>
       </div>
 
       <div className="search-input-wrapper">
@@ -52,7 +52,7 @@ export const Descobrir = () => {
 
       {loading ? (
         <div style={{ padding: '3rem', textAlign: 'center' }}>
-          <Loader2 className="animate-spin" size={32} color="var(--color-french-blue)" />
+          <Loader2 className="animate-spin" size={32} color="var(--color-primary)" />
         </div>
       ) : (
         <div className="books-grid">
