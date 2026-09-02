@@ -21,6 +21,8 @@ import {
 import { initialBooks } from '../../lib/catalogData';
 import './Dashboard.css';
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export const Dashboard = () => {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
@@ -46,7 +48,7 @@ export const Dashboard = () => {
   const loadDashboardData = async () => {
     setLoading(true);
     try {
-      const currentYear = new Date().getFullYear();
+      const currentYear = CURRENT_YEAR;
 
       // 1. Fetch currently reading book
       const { data: readingData } = await supabase
@@ -150,13 +152,18 @@ export const Dashboard = () => {
   };
 
   const handleSaveGoal = async (newGoalValue) => {
-    const currentYear = new Date().getFullYear();
+    const currentYear = CURRENT_YEAR;
     try {
       if (readingGoal) {
         const { data, error } = await supabase
           .from('reading_goals')
-          .update({ meta_livros: newGoalValue, livros_lidos: stats.booksRead })
+          .update({
+            meta_livros: newGoalValue,
+            livros_lidos: stats.booksRead,
+            updated_at: new Date().toISOString(),
+          })
           .eq('id', readingGoal.id)
+          .eq('user_id', user.id)
           .select()
           .single();
 
@@ -418,7 +425,7 @@ export const Dashboard = () => {
         onClose={() => setIsGoalModalOpen(false)}
         initialGoal={readingGoal?.meta_livros || 12}
         onSave={handleSaveGoal}
-        year={currentYear}
+        year={CURRENT_YEAR}
       />
     </div>
   );
