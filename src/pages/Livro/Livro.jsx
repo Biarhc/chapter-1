@@ -182,7 +182,7 @@ export const Livro = () => {
       setPaginaInput(0);
     } catch (err) {
       console.error(err);
-      alert('Erro ao adicionar livro à biblioteca.');
+      alert(`Erro ao adicionar livro à biblioteca: ${err?.message || 'Tente novamente.'}`);
     } finally {
       setUpdating(false);
     }
