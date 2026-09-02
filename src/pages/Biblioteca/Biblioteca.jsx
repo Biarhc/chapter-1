@@ -101,6 +101,11 @@ export const Biblioteca = () => {
 
     setAddingBookId(bookId);
     try {
+      if (!user?.id) {
+        alert('Você precisa estar logada para adicionar livros.');
+        return;
+      }
+
       const { data, error } = await supabase
         .from('user_books')
         .insert([
@@ -122,7 +127,7 @@ export const Biblioteca = () => {
       setIsAddModalOpen(false);
     } catch (err) {
       console.error('Erro ao adicionar livro:', err);
-      alert('Erro ao adicionar livro à biblioteca.');
+      alert(`Erro ao adicionar livro: ${err?.message || err?.error_description || 'Tente novamente.'}`);
     } finally {
       setAddingBookId(null);
     }
