@@ -1316,7 +1316,7 @@ export const initialBooks = [
     "autor": "Abby Jimenez",
     "descricao": "Emma e Justin compartilham a mesma maldição amorosa: todos os seus ex encontram a alma gêmea logo após o término.",
     "capa_url": "https://covers.openlibrary.org/b/id/13186198-L.jpg",
-    "isbn": "9786555657005",
+    "isbn": "9786555656503",
     "editora": "Editora Arqueiro",
     "data_publicacao": "2024-06-04",
     "numero_paginas": 416,
